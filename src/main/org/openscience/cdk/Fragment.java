@@ -23,10 +23,14 @@
  */
 package org.openscience.cdk;
 
+import org.openscience.cdk.AtomContainer;
+
 /**
  * Represents the concept of a fragment with free valences.
  * An example use would be a set of templates with amino acid
  * residues in a protein generator.
+ *
+ * @cdk.module experimental
  *
  * @author     egonw
  * @cdk.svnrev  $Revision$
