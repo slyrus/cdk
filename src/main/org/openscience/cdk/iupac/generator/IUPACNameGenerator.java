@@ -169,7 +169,7 @@ public class IUPACNameGenerator {
 			e.printStackTrace();
 		}
         m.setProperty(IRule.CARBON_COUNT, new Integer(formula.getIsotopeCount(isoFac.getIsotope("C", 12))));
-        m.setProperty(IRule.HYDROGEN_COUNT, new Integer(formula.getIsotopeCount(isoFac.getIsotope("H", 11))));
+        m.setProperty(IRule.HYDROGEN_COUNT, new Integer(formula.getIsotopeCount(isoFac.getIsotope("H", 1))));
         m.setProperty(IRule.CHLORO_COUNT, new Integer(formula.getIsotopeCount(isoFac.getIsotope("Cl", 31))));
         m.setProperty(IRule.BROMO_COUNT, new Integer(formula.getIsotopeCount(isoFac.getIsotope("Br", 79))));
         m.setProperty(IRule.FLUORO_COUNT, new Integer(formula.getIsotopeCount(isoFac.getIsotope("F", 19))));
