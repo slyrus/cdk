@@ -37,6 +37,9 @@ import org.openscience.cdk.graph.ConnectivityChecker;
 import org.openscience.cdk.interfaces.IAtom;
 import org.openscience.cdk.interfaces.IAtomContainer;
 import org.openscience.cdk.interfaces.IAtomContainerSet;
+import org.openscience.cdk.interfaces.IChemObjectBuilder;
+import org.openscience.cdk.interfaces.IElement;
+import org.openscience.cdk.interfaces.IIsotope;
 import org.openscience.cdk.interfaces.IMolecularFormula;
 import org.openscience.cdk.tools.CDKHydrogenAdder;
 import org.openscience.cdk.tools.manipulator.AtomContainerManipulator;
@@ -60,6 +63,7 @@ public class IUPACNameGenerator {
     private IUPACNameLocalizer localizer;
     private Vector rules;
     private IUPACName name;
+	private final static IChemObjectBuilder builder = DefaultChemObjectBuilder.getInstance();
 
     private CDKHydrogenAdder hydrogenAdder;
 
@@ -168,11 +172,11 @@ public class IUPACNameGenerator {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
-        m.setProperty(IRule.CARBON_COUNT, new Integer(formula.getIsotopeCount(isoFac.getIsotope("C", 12))));
-        m.setProperty(IRule.HYDROGEN_COUNT, new Integer(formula.getIsotopeCount(isoFac.getIsotope("H", 1))));
-        m.setProperty(IRule.CHLORO_COUNT, new Integer(formula.getIsotopeCount(isoFac.getIsotope("Cl", 31))));
-        m.setProperty(IRule.BROMO_COUNT, new Integer(formula.getIsotopeCount(isoFac.getIsotope("Br", 79))));
-        m.setProperty(IRule.FLUORO_COUNT, new Integer(formula.getIsotopeCount(isoFac.getIsotope("F", 19))));
+        m.setProperty(IRule.CARBON_COUNT, new Integer(MolecularFormulaManipulator.getElementCount(formula,builder.newInstance(IElement.class,builder.newInstance(IIsotope.class,"C")))));
+        m.setProperty(IRule.HYDROGEN_COUNT, new Integer(MolecularFormulaManipulator.getElementCount(formula,builder.newInstance(IElement.class,builder.newInstance(IIsotope.class,"H")))));
+        m.setProperty(IRule.CHLORO_COUNT, new Integer(MolecularFormulaManipulator.getElementCount(formula,builder.newInstance(IElement.class,builder.newInstance(IIsotope.class,"Cl")))));
+        m.setProperty(IRule.BROMO_COUNT, new Integer(MolecularFormulaManipulator.getElementCount(formula,builder.newInstance(IElement.class,builder.newInstance(IIsotope.class,"Br")))));
+        m.setProperty(IRule.FLUORO_COUNT, new Integer(MolecularFormulaManipulator.getElementCount(formula,builder.newInstance(IElement.class,builder.newInstance(IIsotope.class,"F")))));
 
         // step 0
         logger.info("Step 0");
