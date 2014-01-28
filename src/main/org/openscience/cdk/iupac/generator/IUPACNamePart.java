@@ -74,8 +74,8 @@ public class IUPACNamePart {
     public String toString() {
         StringBuffer sb = new StringBuffer();
         sb.append(this.getName());
-        sb.append("\nRule: ");
-        sb.append(rule.getName() + "\n");
+        sb.append(" (Rule: ");
+        sb.append(rule.getName() + ")");
         return sb.toString();
     }
 }
