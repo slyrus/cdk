@@ -193,7 +193,6 @@ public class OWLAtomTypeHandler extends DefaultHandler {
     /** {@inheritDoc} */ @Override
     @TestMethod("testedByOtherClass")
     public void characters(char chars[], int start, int length) {
-        logger.debug("character data");
         currentChars += new String(chars, start, length);
     }
 
