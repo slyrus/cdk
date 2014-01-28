@@ -187,7 +187,7 @@ public class IUPACNameGenerator {
         if (inp != null) {
             logger.debug("Adding first name part");
             name.addFront(inp);
-            logger.info("current name:\n" + name.toString());
+            logger.info("[generateName]current name: " + name.toString());
             if (m.getProperty(IRule.COMPLETED_FLAG).equals("no") &&
                 m.getProperty(IRule.NONE_APPLICABLE).equals("no")) {
                 logger.debug("Molecule has not been named completely.");
@@ -203,7 +203,7 @@ public class IUPACNameGenerator {
                 }
             }
         }
-        logger.info("current name:\n" + name.toString());
+        logger.info("(end of generateName) current name: " + name.toString());
         deleteNamedAtoms(m);
         return;
     }
@@ -275,8 +275,7 @@ public class IUPACNameGenerator {
                 logger.info("Testing rule: " + rule.getName());
                 name = rule.apply(m);
                 if (name != null) {
-                    logger.debug("current name:");
-                    logger.debug(name.toString());
+                    logger.debug("[applyFirstApplicableRule]current name: " + name.toString());
                     // done = m.getProperty(Rule.COMPLETED_FLAG).equals("yes");
                     done = true; // i.e. start again with first rule
                 }
