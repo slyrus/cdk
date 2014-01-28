@@ -45,7 +45,7 @@ public class Rule1dot2 extends NamingRule {
         return "A-1.2";
     }
 
-    public IUPACNamePart apply(AtomContainer m) {
+    public IUPACNamePart apply(IAtomContainer m) {
         IUPACNamePart inp = null;
         if (m instanceof Fragment) {
             if (((((Integer)m.getProperty(ELEMENT_COUNT)).intValue() == 2) &&
