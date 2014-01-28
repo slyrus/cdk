@@ -44,41 +44,39 @@ public class Rule1dot1 extends NamingRule {
         return "A-1.1";
     }
 
-    public IUPACNamePart apply(AtomContainer m) {
+    public IUPACNamePart apply(IAtomContainer m) {
         IUPACNamePart inp = null;
-        if (m instanceof IAtomContainer) {
-            if (((((Integer)m.getProperty(ELEMENT_COUNT)).intValue() == 2) &&
-                (((Integer)m.getProperty(CARBON_COUNT)).intValue() > 0) &&
-                (((Integer)m.getProperty(HYDROGEN_COUNT)).intValue() > 0)) ||
-                ((((Integer)m.getProperty(ELEMENT_COUNT)).intValue() == 1) &&
-                (((Integer)m.getProperty(CARBON_COUNT)).intValue() > 0))) {
-                // ok, the first requirement is fullfilled:
-                // only carbon and hydrogen in this molecule
-                // second requirement is that molecule is an
-                // n-alkane with length CARBON_COUNT
-                try {
-                    IsomorphismTester it = new IsomorphismTester(m);
-                    int length = ((Integer)m.getProperty(CARBON_COUNT)).intValue();
-                    IAtomContainer nalkane = MoleculeFactory.makeAlkane(length);
-                    if (it.isIsomorphic(nalkane)) {
-                        // final requirements is that this rule can name
-                        // this n-alkane compound
-                        String name = CarbonChainNames.getName(length);
-                        if (name != null) {
-                            inp = new IUPACNamePart(name + localize("ane"), this);
-                            m.setProperty(COMPLETED_FLAG, "yes");
-                            for (int i = 0; i < m.getAtomCount(); i++) {
-                                m.getAtom(i).setProperty(ATOM_NAMED_FLAG, "yes");
-                            }
+        if (((((Integer)m.getProperty(ELEMENT_COUNT)).intValue() == 2) &&
+             (((Integer)m.getProperty(CARBON_COUNT)).intValue() > 0) &&
+             (((Integer)m.getProperty(HYDROGEN_COUNT)).intValue() > 0)) ||
+            ((((Integer)m.getProperty(ELEMENT_COUNT)).intValue() == 1) &&
+             (((Integer)m.getProperty(CARBON_COUNT)).intValue() > 0))) {
+            // ok, the first requirement is fullfilled:
+            // only carbon and hydrogen in this molecule
+            // second requirement is that molecule is an
+            // n-alkane with length CARBON_COUNT
+            try {
+                IsomorphismTester it = new IsomorphismTester(m);
+                int length = ((Integer)m.getProperty(CARBON_COUNT)).intValue();
+                IAtomContainer nalkane = MoleculeFactory.makeAlkane(length);
+                if (it.isIsomorphic(nalkane)) {
+                    // final requirements is that this rule can name
+                    // this n-alkane compound
+                    String name = CarbonChainNames.getName(length);
+                    if (name != null) {
+                        inp = new IUPACNamePart(name + localize("ane"), this);
+                        m.setProperty(COMPLETED_FLAG, "yes");
+                        for (int i = 0; i < m.getAtomCount(); i++) {
+                            m.getAtom(i).setProperty(ATOM_NAMED_FLAG, "yes");
                         }
-                    };
-                } catch (Exception e) {
-                    System.out.println(e.toString());
-                    e.printStackTrace(System.err);
-                }
-            } else {
-                // APPLIES_FLAG is already "no"
+                    }
+                };
+            } catch (Exception e) {
+                System.out.println(e.toString());
+                e.printStackTrace(System.err);
             }
+        } else {
+            // APPLIES_FLAG is already "no"
         }
         return inp;
     }
