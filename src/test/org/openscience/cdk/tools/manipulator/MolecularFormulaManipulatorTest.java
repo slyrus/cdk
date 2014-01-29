@@ -110,6 +110,59 @@ public class MolecularFormulaManipulatorTest extends CDKTestCase {
         Assert.assertEquals(1, MolecularFormulaManipulator.getElementCount(formula,builder.newInstance(IElement.class,flu)));
         Assert.assertEquals(7, MolecularFormulaManipulator.getElementCount(formula,builder.newInstance(IElement.class,h1)));
     }
+
+    /**
+     * Test molecular formula's generated from IIsotopes, including hydrogen/deuterium handling.
+     */
+    @Test
+    public void testGetElementCount_IMolecularFormula_IIsotope() {
+        IMolecularFormula formula = new MolecularFormula();
+        IIsotope carb = builder.newInstance(IIsotope.class,"C");
+        IIsotope flu = builder.newInstance(IIsotope.class,"F");
+        IIsotope h1 = builder.newInstance(IIsotope.class,"H");
+        IIsotope h2 = builder.newInstance(IIsotope.class,"H");
+        h2.setExactMass(2.014101778);
+        formula.addIsotope(carb ,2);
+        formula.addIsotope(flu );
+        formula.addIsotope(h1 ,3);
+        formula.addIsotope(h2 ,4);
+
+        Assert.assertEquals(10, MolecularFormulaManipulator.getAtomCount(formula));
+        Assert.assertEquals(4, formula.getIsotopeCount());
+        Assert.assertEquals(3, formula.getIsotopeCount(h1));
+        Assert.assertEquals(4, formula.getIsotopeCount(h2));
+
+        Assert.assertEquals(2, MolecularFormulaManipulator.getElementCount(formula, carb));
+        Assert.assertEquals(1, MolecularFormulaManipulator.getElementCount(formula, flu));
+        Assert.assertEquals(7, MolecularFormulaManipulator.getElementCount(formula, h1));
+    }
+
+    /**
+     * Test molecular formula's generated from IIsotopes, including hydrogen/deuterium handling.
+     */
+    @Test
+    public void testGetElementCount_IMolecularFormula_String() {
+        IMolecularFormula formula = new MolecularFormula();
+        IIsotope carb = builder.newInstance(IIsotope.class,"C");
+        IIsotope flu = builder.newInstance(IIsotope.class,"F");
+        IIsotope h1 = builder.newInstance(IIsotope.class,"H");
+        IIsotope h2 = builder.newInstance(IIsotope.class,"H");
+        h2.setExactMass(2.014101778);
+        formula.addIsotope(carb ,2);
+        formula.addIsotope(flu );
+        formula.addIsotope(h1 ,3);
+        formula.addIsotope(h2 ,4);
+
+        Assert.assertEquals(10, MolecularFormulaManipulator.getAtomCount(formula));
+        Assert.assertEquals(4, formula.getIsotopeCount());
+        Assert.assertEquals(3, formula.getIsotopeCount(h1));
+        Assert.assertEquals(4, formula.getIsotopeCount(h2));
+
+        Assert.assertEquals(2, MolecularFormulaManipulator.getElementCount(formula, "C"));
+        Assert.assertEquals(1, MolecularFormulaManipulator.getElementCount(formula, "F"));
+        Assert.assertEquals(7, MolecularFormulaManipulator.getElementCount(formula, "H"));
+    }
+
     /**
 	 * Test getIsotopes for hydrogen/deuterium.
 	 */
