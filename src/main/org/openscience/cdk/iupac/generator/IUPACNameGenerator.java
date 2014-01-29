@@ -63,8 +63,6 @@ public class IUPACNameGenerator {
     private IUPACNameLocalizer localizer;
     private Vector rules;
     private IUPACName name;
-    private final static IChemObjectBuilder builder = DefaultChemObjectBuilder.getInstance();
-
     private CDKHydrogenAdder hydrogenAdder;
 
     private org.openscience.cdk.tools.LoggingTool logger;
@@ -172,11 +170,11 @@ public class IUPACNameGenerator {
             // TODO Auto-generated catch block
             e.printStackTrace();
         }
-        m.setProperty(IRule.CARBON_COUNT, new Integer(MolecularFormulaManipulator.getElementCount(formula,builder.newInstance(IElement.class,builder.newInstance(IIsotope.class,"C")))));
-        m.setProperty(IRule.HYDROGEN_COUNT, new Integer(MolecularFormulaManipulator.getElementCount(formula,builder.newInstance(IElement.class,builder.newInstance(IIsotope.class,"H")))));
-        m.setProperty(IRule.CHLORO_COUNT, new Integer(MolecularFormulaManipulator.getElementCount(formula,builder.newInstance(IElement.class,builder.newInstance(IIsotope.class,"Cl")))));
-        m.setProperty(IRule.BROMO_COUNT, new Integer(MolecularFormulaManipulator.getElementCount(formula,builder.newInstance(IElement.class,builder.newInstance(IIsotope.class,"Br")))));
-        m.setProperty(IRule.FLUORO_COUNT, new Integer(MolecularFormulaManipulator.getElementCount(formula,builder.newInstance(IElement.class,builder.newInstance(IIsotope.class,"F")))));
+        m.setProperty(IRule.CARBON_COUNT, new Integer(MolecularFormulaManipulator.getElementCount(formula, "C")));
+        m.setProperty(IRule.HYDROGEN_COUNT, new Integer(MolecularFormulaManipulator.getElementCount(formula, "H")));
+        m.setProperty(IRule.CHLORO_COUNT, new Integer(MolecularFormulaManipulator.getElementCount(formula, "Cl")));
+        m.setProperty(IRule.BROMO_COUNT, new Integer(MolecularFormulaManipulator.getElementCount(formula, "Br")));
+        m.setProperty(IRule.FLUORO_COUNT, new Integer(MolecularFormulaManipulator.getElementCount(formula, "F")));
         
         // step 0
         logger.info("Step 0");
