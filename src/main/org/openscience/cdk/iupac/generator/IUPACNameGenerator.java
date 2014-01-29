@@ -63,7 +63,7 @@ public class IUPACNameGenerator {
     private IUPACNameLocalizer localizer;
     private Vector rules;
     private IUPACName name;
-	private final static IChemObjectBuilder builder = DefaultChemObjectBuilder.getInstance();
+    private final static IChemObjectBuilder builder = DefaultChemObjectBuilder.getInstance();
 
     private CDKHydrogenAdder hydrogenAdder;
 
@@ -137,12 +137,12 @@ public class IUPACNameGenerator {
     public void generateName(IAtomContainer moleculeToName) {       
         //Must use a clone to avoid deleting the user's atoms.
         IAtomContainer m = null;
-		try {
-			m = (IAtomContainer) moleculeToName.clone();
-		} catch (CloneNotSupportedException exception) {
+        try {
+            m = (IAtomContainer) moleculeToName.clone();
+        } catch (CloneNotSupportedException exception) {
             logger.error("Error while cloning molecule: ", exception.getMessage());
             logger.debug(exception);
-		}
+        }
         
         if (!(m instanceof Fragment || m instanceof IAtomContainer)) {
             return;
@@ -150,7 +150,7 @@ public class IUPACNameGenerator {
         // set some initial values
         m.setProperty(IRule.COMPLETED_FLAG, "no");
         m.setProperty(IRule.NONE_APPLICABLE, "no");
-
+        
         /** First calculate some general statistics that
          *  can speed up the application of rules.
          */
@@ -166,18 +166,18 @@ public class IUPACNameGenerator {
         m.setProperty(IRule.ELEMENT_COUNT, new Integer(formula.getIsotopeCount()));
         // FIXME: count all $foo isotopes, not just major ones
         Isotopes isoFac = null;
-		try {
-			isoFac = Isotopes.getInstance();
-		} catch (IOException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
+        try {
+            isoFac = Isotopes.getInstance();
+        } catch (IOException e) {
+            // TODO Auto-generated catch block
+            e.printStackTrace();
+        }
         m.setProperty(IRule.CARBON_COUNT, new Integer(MolecularFormulaManipulator.getElementCount(formula,builder.newInstance(IElement.class,builder.newInstance(IIsotope.class,"C")))));
         m.setProperty(IRule.HYDROGEN_COUNT, new Integer(MolecularFormulaManipulator.getElementCount(formula,builder.newInstance(IElement.class,builder.newInstance(IIsotope.class,"H")))));
         m.setProperty(IRule.CHLORO_COUNT, new Integer(MolecularFormulaManipulator.getElementCount(formula,builder.newInstance(IElement.class,builder.newInstance(IIsotope.class,"Cl")))));
         m.setProperty(IRule.BROMO_COUNT, new Integer(MolecularFormulaManipulator.getElementCount(formula,builder.newInstance(IElement.class,builder.newInstance(IIsotope.class,"Br")))));
         m.setProperty(IRule.FLUORO_COUNT, new Integer(MolecularFormulaManipulator.getElementCount(formula,builder.newInstance(IElement.class,builder.newInstance(IIsotope.class,"F")))));
-
+        
         // step 0
         logger.info("Step 0");
         markAtomsAsUnnamed(m);
@@ -212,13 +212,13 @@ public class IUPACNameGenerator {
         Vector frags = new Vector();
 
         for (int i = ac.getAtomCount()-1; i >= 0; i--) {
-        	org.openscience.cdk.interfaces.IAtom a = ac.getAtom(i);
+            org.openscience.cdk.interfaces.IAtom a = ac.getAtom(i);
             if (a.getProperty(IRule.ATOM_NAMED_FLAG).equals("yes")) {
                 a.setProperty(IRule.ATOM_HAS_VALENCY, "no");
                 // loop over connected atoms
                 java.util.List connectedAtoms = ac.getConnectedAtomsList(a);
                 for (int j = 0; j < connectedAtoms.size(); j++) {
-                	org.openscience.cdk.interfaces.IAtom b = (IAtom)connectedAtoms.get(j);
+                    org.openscience.cdk.interfaces.IAtom b = (IAtom)connectedAtoms.get(j);
                     if (b.getProperty(IRule.ATOM_NAMED_FLAG).equals("yes")) {
                         b.setProperty(IRule.ATOM_HAS_VALENCY, "no");
                     } else {
@@ -239,7 +239,7 @@ public class IUPACNameGenerator {
                 FragmentWithAtomicValencies fwav = new FragmentWithAtomicValencies(molecules.next());
                 for (int i=0; i < fwav.getAtomCount(); i++) {
                     try {
-                    	org.openscience.cdk.interfaces.IAtom a = fwav.getAtom(i);
+                        org.openscience.cdk.interfaces.IAtom a = fwav.getAtom(i);
                         String prop = (String)a.getProperty(IRule.ATOM_HAS_VALENCY);
                         if (prop != null && prop.equals("yes")) {
                             fwav.addValencyAtAtom(a);
@@ -290,7 +290,7 @@ public class IUPACNameGenerator {
 
     private void deleteNamedAtoms(IAtomContainer ac) {
         for (int i = ac.getAtomCount()-1; i >= 0; i--) {
-        	org.openscience.cdk.interfaces.IAtom a = ac.getAtom(i);
+            org.openscience.cdk.interfaces.IAtom a = ac.getAtom(i);
             if (a.getProperty(IRule.ATOM_NAMED_FLAG).equals("yes")) {
                 logger.info("Deleting atom: " + a.getSymbol());
                 ac.removeAtomAndConnectedElectronContainers(ac.getAtom(i));
@@ -304,48 +304,48 @@ public class IUPACNameGenerator {
         }
     }
 
-	public CDKHydrogenAdder getHydrogenAdder() {
-		return hydrogenAdder;
-	}
+    public CDKHydrogenAdder getHydrogenAdder() {
+        return hydrogenAdder;
+    }
 
-	public void setHydrogenAdder(CDKHydrogenAdder hydrogenAdder) {
-		this.hydrogenAdder = hydrogenAdder;
-	}
+    public void setHydrogenAdder(CDKHydrogenAdder hydrogenAdder) {
+        this.hydrogenAdder = hydrogenAdder;
+    }
 
-	public Locale getLocale() {
-		return locale;
-	}
+    public Locale getLocale() {
+        return locale;
+    }
 
-	public void setLocale(Locale locale) {
-		this.locale = locale;
-	}
+    public void setLocale(Locale locale) {
+        this.locale = locale;
+    }
 
-	public IUPACNameLocalizer getLocalizer() {
-		return localizer;
-	}
+    public IUPACNameLocalizer getLocalizer() {
+        return localizer;
+    }
 
-	public void setLocalizer(IUPACNameLocalizer localizer) {
-		this.localizer = localizer;
-	}
+    public void setLocalizer(IUPACNameLocalizer localizer) {
+        this.localizer = localizer;
+    }
 
-	public org.openscience.cdk.tools.LoggingTool getLogger() {
-		return logger;
-	}
+    public org.openscience.cdk.tools.LoggingTool getLogger() {
+        return logger;
+    }
 
-	public void setLogger(org.openscience.cdk.tools.LoggingTool logger) {
-		this.logger = logger;
-	}
+    public void setLogger(org.openscience.cdk.tools.LoggingTool logger) {
+        this.logger = logger;
+    }
 
-	public Vector getRules() {
-		return rules;
-	}
+    public Vector getRules() {
+        return rules;
+    }
 
-	public void setRules(Vector rules) {
-		this.rules = rules;
-	}
+    public void setRules(Vector rules) {
+        this.rules = rules;
+    }
 
-	public void setName(IUPACName name) {
-		this.name = name;
-	}
+    public void setName(IUPACName name) {
+        this.name = name;
+    }
 
 }
